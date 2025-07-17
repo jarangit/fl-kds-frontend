@@ -12,9 +12,14 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
 import Clarity from "@microsoft/clarity";
 import SettingPage from "./pages/setting.tsx";
+import * as Sentry from "@sentry/react";
 
-const projectId = "rhunceryu0";
-Clarity.init(projectId);
+Clarity.init(import.meta.env.VITE_CLARITY_PROJECT_ID as "");
+
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  sendDefaultPii: true,
+});
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>

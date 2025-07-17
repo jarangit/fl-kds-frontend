@@ -6,6 +6,9 @@ import Sidebar from "./sidebar";
 import { useLocation } from "react-router-dom";
 import { setupAutoReload } from "@/utils/idleReload";
 import { useNetworkStatus } from "@/hooks/useNetworkStatus";
+import { useSystemService } from "@/hooks/useSystemService";
+import { openModal } from "@/store/slices/modal-slice";
+import { useAppDispatch } from "@/hooks/hooks";
 
 type Props = {
   children?: React.ReactNode;
@@ -14,12 +17,26 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const location = useLocation();
   const isOnline = useNetworkStatus();
-
+  const { error, loading } = useSystemService();
+  const dispatch = useAppDispatch();
   const isHideSidebar = location.pathname === "/kitchen-monitor";
   useEffect(() => {
     setupAutoReload(10);
-  }, []);
-  
+  }, [loading]);
+
+  useEffect(() => {
+    if (error) {
+      dispatch(
+        openModal({
+          title: "",
+          template: "ERROR",
+          content: "",
+        })
+      );
+      return;
+    }
+  }, [loading]);
+
   return (
     <>
       <div className="flex">
