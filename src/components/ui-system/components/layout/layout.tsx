@@ -9,6 +9,8 @@ import { useNetworkStatus } from "@/hooks/useNetworkStatus";
 import { useSystemService } from "@/hooks/useSystemService";
 import { openModal } from "@/store/slices/modal-slice";
 import { useAppDispatch } from "@/hooks/hooks";
+import ThemeToggle from "@/components/ui/theme-toggle";
+import { cn } from "@/lib/utils";
 
 type Props = {
   children?: React.ReactNode;
@@ -25,26 +27,28 @@ const Layout = ({ children }: Props) => {
   }, [loading]);
 
   useEffect(() => {
-    if (error) {
-      dispatch(
-        openModal({
-          title: "",
-          template: "ERROR",
-          content: "",
-        })
-      );
+    if (!error) {
       return;
     }
-  }, [loading]);
+
+    dispatch(
+      openModal({
+        title: "",
+        template: "ERROR",
+        content: "",
+      })
+    );
+  }, [dispatch, error]);
 
   return (
     <>
-      <div className="flex">
+      <div className="flex bg-background text-foreground">
         {!isHideSidebar && <Sidebar />}
         <div
-          className={`"flex flex-col min-h-screen flex-grow transition-all duration-1000 ${
-            !isHideSidebar ? "ml-[60px] " : "ml-0"
-          }"`}
+          className={cn(
+            "flex flex-col min-h-screen flex-grow transition-all duration-300",
+            !isHideSidebar ? "ml-[60px]" : "ml-0"
+          )}
         >
           {/* <section className="w-full p-3 bg-blue-500 text-white text-center">
             Develop version
@@ -58,10 +62,13 @@ const Layout = ({ children }: Props) => {
           ) : (
             ""
           )}
-          <main className="flex-1 flex flex-col p-4 my-container">
+          <main className="flex-1 flex flex-col gap-6 p-4 my-container">
+            <div className="flex justify-end">
+              <ThemeToggle />
+            </div>
             {children}
           </main>
-          <footer className="bg-[#F1F1F1] p-4"></footer>
+          <footer className="bg-secondary text-secondary-foreground p-4 transition-colors"></footer>
         </div>
       </div>
 
