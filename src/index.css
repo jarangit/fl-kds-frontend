@@ -3,9 +3,10 @@
 @import "tw-animate-css";
 
 body {
-  background-color: #f6f6f6;
+  background-color: var(--background);
   font-family: "Inter", sans-serif;
-  color: #1d1d1f;
+  color: var(--foreground);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .my-container {

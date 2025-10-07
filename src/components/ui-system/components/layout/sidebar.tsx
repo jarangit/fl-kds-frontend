@@ -29,10 +29,10 @@ const Sidebar = () => {
   const location = useLocation();
 
   const itemClass =
-    "p-3 flex flex-col justify-center items-center text-xs gap-1";
-  const activeClass = "bg-gray-300 ";
+    "p-3 flex flex-col justify-center items-center text-xs gap-1 text-foreground transition-colors hover:bg-muted";
+  const activeClass = "bg-muted font-semibold";
   return (
-    <div className="bg-[#EBEBEB] h-screen w-[60px] fixed border-r border-gray-200 pb-12">
+    <div className="bg-secondary text-secondary-foreground h-screen w-[60px] fixed border-r border-border pb-12 transition-colors">
       <div className="h-full flex justify-between flex-col">
         <div className="flex flex-col">
           {listMenu.map((i, key) => (
